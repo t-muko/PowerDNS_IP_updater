@@ -1,0 +1,39 @@
+# Set following variables in .vscode/settings.json to use these test requests with 'REST Client' extension:
+
+# { "rest-client.environmentVariables": {
+#         "$shared": {
+#             "apikey": "PDNS apikey",
+#             "pdnshost": "pdns hostname",
+#             "domain": "yourdomain.tld"
+#         }
+#     }
+# }
+
+### Get zones
+GET https://{{pdnshost}}/api/v1/servers/localhost/zones/{{domain}}
+Content-Type: application/json
+X-API-KEY: {{apikey}}
+
+###
+# Test request to update A-record
+PATCH https://{{pdnshost}}/api/v1/servers/localhost/zones/{{domain}}
+Content-Type: application/json
+X-API-KEY: {{apikey}}
+
+{
+  "rrsets": [
+    {
+      "name": "mysubdomain.{{domain}}.",
+      "type": "A",
+      "ttl": 600,
+      "changetype": "REPLACE",
+      "records": [
+        {
+          "content": "185.55.85.2",
+          "disabled": false
+        }
+      ]
+    }
+  ]
+}
+
